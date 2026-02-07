@@ -1,0 +1,47 @@
+name: Deploy Registro Estudiantes Hex (prod)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: dotnet restore Microservicios/Productos/Productos.Api/RegistroEstudiantesH.Api.csproj
+
+      - name: Build
+        run: dotnet build Microservicios/Productos/Productos.Api/RegistroEstudiantesH.Api.csproj -c Release --no-restore
+
+      - name: Publish
+        run: dotnet publish Microservicios/Productos/Productos.Api/RegistroEstudiantesH.Api.csproj -c Release -o out --no-build
+
+      - name: Upload via SSH (rsync)
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "out/*"
+          target: ${{ secrets.PROD_PATH }}
+          strip_components: 1
+
+      - name: Restart service
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo systemctl restart hexregistroestudiantes-api
+            sudo systemctl status hexregistroestudiantes-api --no-pager
