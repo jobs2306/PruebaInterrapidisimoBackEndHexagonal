@@ -80,7 +80,7 @@
 
             if (existeEmail != null)
             {
-                throw new ConflictCustomException("El email ya se encuentra registrado.");
+                throw new BadRequestCustomException("El email ya se encuentra registrado.");
             }
 
             var passwordHasher = new PasswordHasher<Estudiantes>();

@@ -35,12 +35,15 @@
         /// <returns> 
         /// Retorna una ApiRespuesta con StatusCodes
         ///   200OK Cuando crea al usuario
+        ///   400BadRequest Si no hay un error en la validacion de datos de entrada.
         ///   500InternalServerError Si ocurrio una falla o errror NO controlado 
         /// </returns>
-        /// <response code="200">Cuando inicia sesión correctamente</response>
+        /// <response code="200">Cuando crea al usuario correctamente correctamente</response>
+        /// <response code="400">Si encuentra un error.</response>
         /// <response code="500">Si ocurrio una falla o errror NO controlado</response>
         [HttpPost("Registrar")]
         [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Registrar([FromBody] DtoRegistrar dto)
         {
