@@ -48,7 +48,7 @@
         /// <response code="401">Si no está autenticado.</response>
         /// <response code="500">Si ocurrio una falla o errror NO controlado</response>
         [Authorize]
-        [HttpPost("Inscribir/Estudiante")]
+        [HttpPost("Inscribir/Usuario")]
         [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.NotFound)]
