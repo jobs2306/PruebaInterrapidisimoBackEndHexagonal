@@ -29,6 +29,42 @@
         }
 
         /// <summary>
+        /// Crea a un usuario
+        /// </summary>
+        /// <param name="dto">Dto con datos necesarios para crear al usuario</param>
+        /// <returns> 
+        /// Retorna una ApiRespuesta con StatusCodes
+        ///   200OK Cuando crea al usuario
+        ///   500InternalServerError Si ocurrio una falla o errror NO controlado 
+        /// </returns>
+        /// <response code="200">Cuando inicia sesión correctamente</response>
+        /// <response code="500">Si ocurrio una falla o errror NO controlado</response>
+        [HttpPost("Registrar")]
+        [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiRespuesta<string>), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> Registrar([FromBody] DtoRegistrar dto)
+        {
+            try
+            {
+                await _mediator.Send(new CrearEstudianteCommand(dto));
+                return ApiRespuestaUtil.Convertir(ApiRespuestaHttp<string>.RespuestaExitosa("Usuario registrado exitosamente"));
+            }
+            catch (BadRequestCustomException ex)
+            {
+                return ApiRespuestaUtil.Convertir(ApiRespuestaHttp<string>.RespuestaFallida(ex.Message,
+                        HttpStatusCode.BadRequest
+                ));
+            }
+            catch (Exception)
+            {
+                return ApiRespuestaUtil.Convertir(ApiRespuestaHttp<string>.RespuestaFallida(
+                        "Error interno del servidor",
+                        HttpStatusCode.InternalServerError
+                ));
+            }
+        }
+
+        /// <summary>
         /// Inicia la sesion de un usuario
         /// </summary>
         /// <param name="dto">Dto con datos necesarios para iniciar sesion</param>
@@ -61,8 +97,7 @@
                 return ApiRespuestaUtil.Convertir(ApiRespuestaHttp<string>.RespuestaFallida(
                         "Error interno del servidor",
                         HttpStatusCode.InternalServerError
-                    )
-                );
+                ));
             }
         }
     }
