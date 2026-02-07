@@ -1,4 +1,4 @@
-# 📚 BackEnd – Registro de Materias de Estudiantes  
+# BackEnd – Registro de Materias de Estudiantes  
 ## Prueba Técnica – Interrapidísimo
 
 Este proyecto corresponde al **BackEnd de una prueba técnica** desarrollada para la empresa **Interrapidísimo**.  
@@ -10,8 +10,6 @@ La aplicación está orientada a la **gestión y registro de materias de estudia
 
 El sistema expone una **API REST** que permite:
 
-- Registrar estudiantes en el sistema.
-- Gestionar materias académicas.
 - Registrar materias únicamente para estudiantes que se encuentren **en sesión**.
 - Aplicar reglas de negocio desacopladas de la infraestructura.
 - Facilitar la mantenibilidad, escalabilidad y testabilidad del backend.
