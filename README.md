@@ -10,6 +10,8 @@ La aplicación está orientada a la **gestión y registro de materias de estudia
 
 El sistema expone una **API REST** que permite:
 
+- Registrar estudiantes en el sistema.
+- Inicio de sesión.
 - Registrar materias únicamente para estudiantes que se encuentren **en sesión**.
 - Aplicar reglas de negocio desacopladas de la infraestructura.
 - Facilitar la mantenibilidad, escalabilidad y testabilidad del backend.
@@ -29,6 +31,7 @@ La solución está construida bajo el enfoque de **Arquitectura Hexagonal**, lo 
 
 - **Aplicación**  
   Implementa los casos de uso y coordina la interacción entre el dominio y los adaptadores.
+  Implementa patrón de diseño Mediator para la ejecución de commands y queries.
 
 - **Infraestructura**  
   Incluye los controladores HTTP, persistencia de datos, configuración de Swagger y demás detalles técnicos.
@@ -40,6 +43,8 @@ Este enfoque garantiza que el dominio sea independiente de frameworks, bases de 
 ## Despliegue
 
 El backend se encuentra **desplegado en una VPS Linux**, ejecutándose en un entorno de producción real.
+La **VPS** usa **Nginx** para que las peticiones se redirijan al servicio correcto.
+El sitio web en el que se despliega usa **HTTPS** para que la comunicación sea segura.
 
 ### Documentación Swagger
 
@@ -50,7 +55,7 @@ https://apihexregistroestudiantes.joelflow.com/swagger/index.html
 Desde Swagger es posible:
 - Explorar todos los endpoints disponibles.
 - Probar las operaciones de la API.
-- Visualizar los modelos de datos y contratos expuestos.
+- Visualizar los modelos de datos expuestos.
 
 ---
 
@@ -60,7 +65,7 @@ Desde Swagger es posible:
 - Arquitectura Hexagonal (Ports & Adapters)
 - API REST
 - Swagger / OpenAPI
-- Despliegue en VPS Linux
+- Despliegue en VPS Linux mediante CI/CD
 - Control de versiones con Git
 
 ---
