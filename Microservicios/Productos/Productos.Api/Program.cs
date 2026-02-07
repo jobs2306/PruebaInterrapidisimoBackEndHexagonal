@@ -20,6 +20,17 @@ builder.Services.AddDbContext<EstudiantesDbContext>(options =>
     )
 );
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PublicApi", policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 // UnitOfWork
 builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<EstudiantesDbContext>());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -94,6 +105,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors("PublicApi");
 
 app.UseAuthentication();
 app.UseAuthorization();
