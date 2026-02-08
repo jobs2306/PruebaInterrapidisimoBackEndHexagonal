@@ -21,6 +21,11 @@
         public string Profesor { get; set; } = string.Empty;
 
         /// <summary>
+        /// Creditos de la materia
+        /// </summary>
+        public int Creditos { get; set; }
+
+        /// <summary>
         /// Indica si el estudiante está matriculado
         /// </summary>
         public bool Matriculada { get; set; }

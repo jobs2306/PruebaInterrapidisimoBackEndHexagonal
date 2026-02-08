@@ -64,6 +64,7 @@
             {
                 MateriaId = m.MateriaId,
                 Nombre = m.Nombre,
+                Creditos = m.Creditos,
 
                 Profesor = m.ProfesorMaterias!
                         .Select(pm => pm.Profesor!.Nombre)

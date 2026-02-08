@@ -1,5 +1,6 @@
 ﻿namespace RegistroEstudiantesH.Aplicacion.Funcionalidades.Commands.Auth
 {
+    using System.Text.RegularExpressions;
     using MediatR;
     using Microsoft.AspNetCore.Identity;
     using RegistroEstudiantesH.Aplicacion.Dtos.Login.Entrada;
@@ -68,9 +69,11 @@
                 throw new BadRequestCustomException("La contraseña es obligatoria.");
             }
 
-            if (request.Body.Password.Length < 6)
+            if (!EsPasswordValido(request.Body.Password))
             {
-                throw new BadRequestCustomException("La contraseña debe tener al menos 6 caracteres.");
+                throw new BadRequestCustomException("La contraseña debe cumplir los siguiente requisitos: \n " +
+                    "Debe tener de 8 a 16 caracteres. \n " +
+                    "Debe tener al menos una letra, un número y un simbolo");
             }
 
             var existeEmail = await _unitOfWork.Repository<Estudiantes, int>().ObtenerEntidadAsync(
@@ -114,6 +117,17 @@
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Metodo para validar que una contrasenia es valida
+        /// </summary>
+        /// <param name="password">Contrasenia a validar</param>
+        /// <returns>Retorna true si es valida, en caso contrario retornar false</returns>
+        private bool EsPasswordValido(string password)
+        {
+            var regex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,16}$");
+            return regex.IsMatch(password);
         }
     }
 }
